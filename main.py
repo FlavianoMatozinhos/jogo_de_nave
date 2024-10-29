@@ -21,6 +21,9 @@ fonte_vidas = pygame.font.Font(None, 36)
 fonte_pontuacao = pygame.font.Font(None, 36)
 
 # Carregar e redimensionar imagens
+background_img = pygame.image.load("background.jpg")  # Carrega a imagem de fundo
+background_img = pygame.transform.scale(background_img, (LARGURA, ALTURA))  # Redimensiona a imagem para o tamanho da tela
+
 nave_img = pygame.image.load("nave.png")
 nave_img = pygame.transform.scale(nave_img, (nave_img.get_width() // 6, nave_img.get_height() // 6))
 alien_img = pygame.image.load("alien.png")
@@ -129,7 +132,7 @@ def main():
 
     # Loop principal do jogo
     while executando:
-        tela.fill(PRETO)  # Limpar a tela
+        tela.blit(background_img, (0, 0))  # Desenhar a imagem de fundo na tela
 
         # Eventos
         for evento in pygame.event.get():
@@ -196,34 +199,38 @@ def main():
         if spawn_protect:
             nave_img_tons = nave_img.copy()
             nave_img_tons.fill((100, 100, 100), special_flags=pygame.BLEND_MULT)
-            tela.blit(nave_img_tons, nave_rect)
+            tela.blit(nave_img_tons, nave_rect.topleft)
         else:
-            tela.blit(nave_img, nave_rect)
+            tela.blit(nave_img, nave_rect.topleft)
 
-        # Desenhar tiros e aliens
+        # Desenhar tiros
         for tiro in tiros:
-            pygame.draw.circle(tela, VERDE, (tiro.centerx, tiro.centery), TIRO_RAIO)
+            pygame.draw.circle(tela, VERDE, tiro.center, TIRO_RAIO)
+
+        # Desenhar aliens
         for alien in aliens:
             tela.blit(alien_img, alien.topleft)
 
-        # Exibir vidas e pontuação
-        vidas_texto = fonte_vidas.render(f"Vidas: {vidas}", True, BRANCO)
-        tela.blit(vidas_texto, (10, 10))
-        pontuacao_texto = fonte_pontuacao.render(f"Pontos: {pontuacao}", True, BRANCO)
-        tela.blit(pontuacao_texto, (LARGURA - 150, 10))
+        # Exibir pontuação e vidas
+        texto_pontuacao = fonte_pontuacao.render(f"Pontuação: {pontuacao}", True, BRANCO)
+        tela.blit(texto_pontuacao, (10, 10))
 
-        # Atualiza a tela
+        texto_vidas = fonte_vidas.render(f"Vidas: {vidas}", True, BRANCO)
+        tela.blit(texto_vidas, (10, 40))
+
         pygame.display.flip()
-        relogio.tick(60)  # Limita a 60 FPS
+        relogio.tick(60)
 
-        # Verifica se o jogador perdeu todas as vidas
+        # Verificar se as vidas acabaram
         if vidas <= 0:
             executando = False
+            mostrar_menu_fim(pontuacao)
 
-    # Exibir menu de fim de jogo
-    mostrar_menu_fim(pontuacao)
+# Exibe o menu inicial
+mostrar_menu()
 
 # Inicia o jogo
-mostrar_menu()
 main()
+
+# Encerra o pygame
 pygame.quit()
