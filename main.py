@@ -22,8 +22,15 @@ fonte_vidas = pygame.font.Font(None, 36)
 fonte_pontuacao = pygame.font.Font(None, 36)
 
 # Carregar e redimensionar imagens
-background_img = pygame.image.load("background.jpg")  # Carrega a imagem de fundo
+# Carregar e redimensionar imagens
+background_img = pygame.image.load("background.jpg")  # Carrega a imagem de fundo inicial
 background_img = pygame.transform.scale(background_img, (LARGURA, ALTURA))  # Redimensiona a imagem para o tamanho da tela
+
+background_img2 = pygame.image.load("background2.jpg")  # Carrega a nova imagem de fundo
+background_img2 = pygame.transform.scale(background_img2, (LARGURA, ALTURA))  # Redimensiona a imagem para o tamanho da tela
+
+background_img3 = pygame.image.load("background3.jpg")  # Carrega a nova imagem de fundo
+background_img3 = pygame.transform.scale(background_img3, (LARGURA, ALTURA))  # Redimensiona a imagem para o tamanho da tela
 
 nave_img = pygame.image.load("lactase.png")
 nave_img = pygame.transform.scale(nave_img, (nave_img.get_width() // 6, nave_img.get_height() // 6))
@@ -119,7 +126,7 @@ def mostrar_menu_fim(pontuacao):
                 pygame.quit()
                 quit()
             if evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_RETURN:  # Enter para reiniciar
+                if evento.key == pygame.K_RETURN:  # Enter para iniciar
                     menu_ativo = False
                 elif evento.key == pygame.K_ESCAPE:  # Esc para sair
                     pygame.quit()
@@ -133,7 +140,12 @@ def main():
 
     # Loop principal do jogo
     while executando:
-        tela.blit(background_img, (0, 0))  # Desenhar a imagem de fundo na tela
+        if pontuacao >= 3000:
+            tela.blit(background_img3, (0, 0))  # Use o terceiro plano de fundo
+        elif pontuacao >= 1000:
+            tela.blit(background_img2, (0, 0))  # Use o segundo plano de fundo
+        else:
+            tela.blit(background_img, (0, 0))  # Use o plano de fundo inicial
 
         # Eventos
         for evento in pygame.event.get():
