@@ -12,7 +12,8 @@ pygame.display.set_caption("Jogo de Nave - Arcade")
 # Cores
 BRANCO = (255, 255, 255)
 PRETO = (0, 0, 0)
-VERDE = (0, 255, 0)  # Cor do tiro
+# Cor do tiro
+AMARELA_PALHA = (255, 253, 208)  # Amarelo claro
 
 # Fonte do menu
 fonte_titulo = pygame.font.Font(None, 74)
@@ -24,7 +25,7 @@ fonte_pontuacao = pygame.font.Font(None, 36)
 background_img = pygame.image.load("background.jpg")  # Carrega a imagem de fundo
 background_img = pygame.transform.scale(background_img, (LARGURA, ALTURA))  # Redimensiona a imagem para o tamanho da tela
 
-nave_img = pygame.image.load("nave.png")
+nave_img = pygame.image.load("lactase.png")
 nave_img = pygame.transform.scale(nave_img, (nave_img.get_width() // 6, nave_img.get_height() // 6))
 alien_img = pygame.image.load("alien.png")
 alien_img = pygame.transform.scale(alien_img, (alien_img.get_width() // 6, alien_img.get_height() // 6))
@@ -205,7 +206,7 @@ def main():
 
         # Desenhar tiros
         for tiro in tiros:
-            pygame.draw.circle(tela, VERDE, tiro.center, TIRO_RAIO)
+            pygame.draw.circle(tela, AMARELA_PALHA, tiro.center, TIRO_RAIO)
 
         # Desenhar aliens
         for alien in aliens:
